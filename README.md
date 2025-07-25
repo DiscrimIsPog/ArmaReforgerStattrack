@@ -35,7 +35,7 @@ pip install pytesseract pillow
    python killtracker.py
    or open the py file like any other program
    ```
-4. Enter your screen resolution when prompted (or press Enter for 1920x1080). (I am not rich so i cant calculate 4k or 2k motitor  cords for the tool)
+4. Enter your screen resolution when prompted (or press Enter for 1920x1080). (I am not rich :( so i cant calculate 4k or 1440p motitor  cords for the tool)
 5. The script will start tracking your kills and vehicle kills. Stats are displayed in the console.
 
 ## Files
