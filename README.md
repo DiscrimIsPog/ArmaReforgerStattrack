@@ -15,7 +15,7 @@ ARMA StatTrak™ is a Python tool that uses OCR to track your kills and vehicle 
 ## Requirements
 
 - Python 3.x
-- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) (must be installed and path set in script)
+- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) (must be installed and left defualt location for it to work)
 - Python packages: `pytesseract`, `Pillow`
 
 Install dependencies with:
