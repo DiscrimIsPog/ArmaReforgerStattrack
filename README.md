@@ -26,7 +26,7 @@ pip install pytesseract pillow
 ## Usage
 
 1. Install Tesseract OCR and note its installation path.
-2. Edit `killtracker.py` and set the correct path for `tesseract_cmd` if needed (its defualt location is already there):
+2. Edit `killtracker.py` and set the correct path for `tesseract_cmd` if needed (its defualt location is already there ignore this if default):
    ```python
    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
    ```
