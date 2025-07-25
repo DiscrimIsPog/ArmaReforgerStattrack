@@ -7,18 +7,17 @@ import os
 from datetime import datetime, timedelta
 import sys
 
-# Path to Tesseract https://github.com/UB-Mannheim/tesseract/wiki
+# Path to Tesseract
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # Regions for 1728x1080 (reference)
 REGION_KILLS_1728 = (1300, 800, 1431, 825)
 REGION_VEHICLE_KILLS_1728 = (1300, 830, 1470, 855)
 
-# Regions for 1920x1080 (example values, adjust as needed)
+# Regions for 1920x1080 (updated)
 REGION_KILLS_1920 = (1440, 830, 1525, 860)
 REGION_VEHICLE_KILLS_1920 = (1440, 860, 1600, 890)
 
-# JSON data file
 LOG_FILE = "data.json"
 
 def prompt_screen_resolution():
@@ -68,16 +67,7 @@ def get_text_with_confidence(img):
     return combined_text, median_conf
 
 def print_box(kills, total_kills, vehicle_kills, total_vehicle_kills, streak_kills, total_combined_kills, message=""):
-    """
-    Print a formatted stats box to the console, including current and total stats.
-    Clears the console before printing, so the box always appears in the same place.
-    This works the same in CMD, Windows Terminal, and VS Code.
-    """
-    import os
-
-    # Clear console for Windows and Unix-like systems
-    os.system('cls' if os.name == 'nt' else 'clear')
-
+    print("\033c", end="")  # Clear console
     print("╔═════════════════════ ARMA StatTrak™ ═════════════════════╗")
     print("║                   Current        |         Total         ║")
     print("╠══════════════════════════════════════════════════════════╣")
@@ -177,14 +167,15 @@ def main():
             streak_start = None
             streak_expire = None
             streak_kills = 0
-            
+
+        # Capture screenshots and overwrite kills.png and vehicle.png in main dir
         img_k = ImageGrab.grab(bbox=REGION_KILLS)
-        #img_k.save("kills.png") # Uncomment to save screenshot for debugging
+        img_k.save("kills.png")
         text_k, conf_k = get_text_with_confidence(img_k)
         kills = extract_stat(text_k) if conf_k >= 88 else None
 
         img_vk = ImageGrab.grab(bbox=REGION_VEHICLE_KILLS)
-        #img_vk.save("vehicle.png") # Uncomment to save screenshot for debugging
+        img_vk.save("vehicle.png")
         text_vk, conf_vk = get_text_with_confidence(img_vk)
         vehicle_kills = extract_stat(text_vk) if conf_vk >= 88 else None
 
@@ -209,16 +200,16 @@ def main():
                 last_vehicle_kills = vehicle_kills
                 current_game_vehicle_kills = vehicle_kills
             elif vehicle_kills < last_vehicle_kills:
-                # Vehicle kill counter reset (game ended) — do NOT add to total
+                total_vehicle_kills += vehicle_kills
                 current_game_vehicle_kills = vehicle_kills
                 last_vehicle_kills = vehicle_kills
+                got_vehicle_kill = True
             elif vehicle_kills > last_vehicle_kills:
                 diff = vehicle_kills - last_vehicle_kills
                 current_game_vehicle_kills += diff
                 total_vehicle_kills += diff
                 last_vehicle_kills = vehicle_kills
                 got_vehicle_kill = True
-
 
         if got_kill or got_vehicle_kill:
             if not streak_start or (now - streak_start).total_seconds() > 30:
@@ -241,14 +232,19 @@ def main():
             if increment > 0:
                 kill_streak_count += increment
                 streak_kills += increment
-                streak_message = get_streak_message(kill_streak_count)
+
+                base_msg = get_streak_message(kill_streak_count)
+                extra_msg = ""
+                if got_vehicle_kill:
+                    extra_msg = "\n💬 You got a vehicle kill! 🩸🚗"
+                streak_message = base_msg + extra_msg
                 streak_expire = now + timedelta(seconds=30)
 
             save_config(total_kills, total_vehicle_kills, (actual_width, actual_height))
 
         total_combined_kills = total_kills + total_vehicle_kills
         print_box(current_game_kills, total_kills, current_game_vehicle_kills, total_vehicle_kills, streak_kills, total_combined_kills, streak_message)
-        time.sleep(1)
+        time.sleep(1.5)
 
 if __name__ == "__main__":
     main()
