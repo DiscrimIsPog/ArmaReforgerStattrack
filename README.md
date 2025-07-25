@@ -1,4 +1,4 @@
-# ARMA StatTrak™
+# ARMA StatTrak™ (For CTI_ScoringSystem)
 
 ARMA StatTrak™ is a Python tool that uses OCR to track your kills and vehicle kills in Arma Reforger by reading them directly from your game screen. It supports both 1728x1080 and 1920x1080 resolutions.
 
