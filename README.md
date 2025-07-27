@@ -16,11 +16,13 @@ ARMA StatTrak™ is a Python tool that tracks your kills and vehicle kills in Ar
 
 - Python 3.x
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) (must be installed and left defualt location for it to work)
-- Python packages: `pytesseract`, `Pillow`
+- Python packages: `pytesseract`, `Pillow`, `pyautogui`
+- 
 
 Install dependencies with:
 ```sh
 pip install pytesseract pillow
+pip install pyautogui
 ```
 
 ## Usage
