@@ -3,6 +3,8 @@ ARMA StatTrak™ is a Python tool that tracks your kills and vehicle kills in Ar
 ## Preview
 
 <img width="482" height="161" alt="image" src="https://github.com/user-attachments/assets/f1826817-8072-46aa-9aaa-ce9079478234" />
+<img width="602" height="386" alt="image" src="https://github.com/user-attachments/assets/1680c469-c2e9-4c19-93fd-cadd72d586f2" />
+
 
 ## Features
 
